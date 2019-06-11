@@ -1,3 +1,5 @@
+
+
 this.$('.o_select_file_button').click(function () {
 
     var $input = $('#bim_model_file_input');
@@ -9,10 +11,12 @@ this.$('.o_select_file_button').click(function () {
     console.log(size)
     console.log(description)
     console.log(name)
+
     if (!files.length) {
         alert("请选择要上传的文件");
         return;
     }
+
         var data = new FormData();
         /*browse base方式，上传格式有严格的POST Policy限制，不能随意添加字段*/
         // data.append('key', files[0].name);

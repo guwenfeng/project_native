@@ -50,7 +50,7 @@
         'views/project_project_view.xml',
         'security/ir.model.access.csv',
     ],
-    "qweb": ["static/src/xml/bimFileUploadTemplate.xml"],
+    "qweb": [],
     "demo": [],
     "post_load": None,
     "pre_init_hook": None,
