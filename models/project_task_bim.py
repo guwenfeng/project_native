@@ -13,10 +13,9 @@ class ProjectTaskBim(models.Model):
     task_ids = fields.Many2many('project.task', string='Tasks')
 
     @api.multi
-    def form_button_project_task_bim_add(self,) :
+    def form_button_project_task_bim_add(self,str) :
         self.ensure_one()
-        print(self);
-        return True
+        return str
 
 class ProjectTask(models.Model):
     _name = 'project.task'

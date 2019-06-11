@@ -1,5 +1,4 @@
 
-
 this.$('.o_select_file_button').click(function () {
 
     var $input = $('#bim_model_file_input');
@@ -33,25 +32,19 @@ this.$('.o_select_file_button').click(function () {
         // var rpc = require('web.rpc');
         // rpc.query({
         //     model: 'project.task.bim',
-        //     method: 'create',
+        //     method: 'form_button_project_task_bim_add',
         //     args: [{
-        //         'name': 'ifc',
-        //         'description': 'new bim',
-        //         'size': 1,
-        //         'file': 'bim.ifc',
-        //         'task_ids': 1,
+        //         'str':'ok',
         //     }]
-        // }).then(function (returned_value) { // do something }
+        // }).then(function(result) {
+        //     console.log(result);
+        // });
 
         $.ajax({
-            type: 'POST',
-            url: res['url'],
-            contentType: false,
-            processData: false,
-            data: data,
+            type: 'GET',
+            url: '/bim/create',
             success: function (resx) {
-                var rurl = $(resx).find('Location').text();
-                self.set_value(rurl);
+                console.log(resx)
                 alert("上传成功！")
             }
         });
