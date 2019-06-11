@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- 引入js脚本 -->
+    <template id="assets_backend" name="custom page assets" inherit_id="web.assets_backend">
+      <xpath expr="//script[last()]" position="after">
+        <script type="text/javascript" src="/project_native/static/src/js/bimModelAdd.js" />
+        <script type="text/javascript" src="/project_native/static/src/js/bimFileUploadWidget.js" />
+      </xpath>
+    </template>
+  </data>
+</odoo>
