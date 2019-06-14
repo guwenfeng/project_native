@@ -48,6 +48,7 @@
         'views/project_calendar_access_view.xml',
         'views/resource_views.xml',
         'views/project_project_view.xml',
+        'views/project_task_bim.xml',
         'security/ir.model.access.csv',
     ],
     "qweb": [],

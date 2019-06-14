@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+    <act_window id="action_project_task_bim_menu"
+      name="BIM模型列表"
+      res_model="project.task.bim"
+      view_mode="tree,form"
+    />
+    <menuitem id="project_task_bim_menu"
+      name="BIM模型"
+      parent="project.menu_main_pm"
+      action="action_project_task_bim_menu"
+    />
+
+    <record id="view_form_book" model="ir.ui.view">
+      <field name="name">BIM模型</field>
+      <field name="model">project.task.bim</field>
+      <field name="arch" type="xml">
+          <form string="BIM模型">
+            <group name="group_top">
+              <group name="group_left">
+                  <field name="name" />
+                  <field name="version" />
+                  <field name="file_name" invisible="1"/>
+                  <field name="file" filename="file_name"/>
+              </group>
+              <group name="group_right">
+                  <field name="file_url"/>
+                  <field name="description"/>
+                  <field name="user_id"/>
+              </group>
+            </group>
+            <group>
+                <field name="task_ids" />
+            </group>
+          </form>
+      </field>
+  </record>
+
+  </data>
+</odoo>
