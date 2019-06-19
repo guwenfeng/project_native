@@ -79,7 +79,7 @@ class ProjectTaskBim(models.Model):
 
         _logger.info('upload file to Bim server')
         _logger.info(response.status)
-        responseBody = eval(response.read().decode().replace('true','True'))
+        responseBody = eval(response.read().decode().replace('true','True').replace('false','False'))
         _logger.info(responseBody)
 
         # close HTTPConnection
