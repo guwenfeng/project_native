@@ -25,7 +25,7 @@
                   <field name="file" filename="file_name"/>
               </group>
               <group name="group_right">
-                  <field name="file_url"/>
+                  <field name="file_url" widget="url" readonly="True"/>
                   <field name="description"/>
                   <field name="user_id"/>
               </group>

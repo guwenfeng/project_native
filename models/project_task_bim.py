@@ -14,7 +14,7 @@ class ProjectTaskBim(models.Model):
     version = fields.Char("模型版本", required=True,default='1.0')
     file = fields.Binary("模型文件", required=True)
     file_name = fields.Char("文件名")
-    file_url = fields.Char("模型显示地址")
+    file_url = fields.Html("模型显示地址")
     description = fields.Char("描述")
     task_ids = fields.Many2many('project.task', string='任务')
     user_id =  fields.Many2one('res.users','Current User', default=lambda self: self.env.user)
@@ -86,7 +86,7 @@ class ProjectTaskBim(models.Model):
         conn.close()
 
         if responseBody['success'] :
-            values['file_url'] = responseBody['content']
+            values['file_url'] = '<a href ="' + responseBody['content'] + '">打开模型</a>'
 
         # create obj in odoo super function
         res_id = super(ProjectTaskBim, self).create(values)
