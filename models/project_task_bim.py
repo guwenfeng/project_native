@@ -68,7 +68,7 @@ class ProjectTaskBim(models.Model):
             'Content-type': contentType,
             "rc_uid": "CxjNWQ8JjW77Gf2yG",
             "accept": "application/json, text/javascript",
-            "rc_token": "VQrlqlHmpiaIwuBUhTnEyV6mFIKE2Vfrb3ykmrnUGHx"
+            "rc_token": "glWa1YfBd2nq4B28C4Y0rotGHmMknKhlyjPGrdhchec"
         }
         # create HTTPConnection
         conn = http.client.HTTPConnection(bim_server_host)
@@ -86,7 +86,7 @@ class ProjectTaskBim(models.Model):
         conn.close()
 
         if responseBody['success'] :
-            values['file_url'] = '<a href ="' + responseBody['content'] + '">打开模型</a>'
+            values['file_url'] = '<a href ="http://119.3.40.108:3000/#/model-detail-show?uuid=' + responseBody['content'] + '&uid=CxjNWQ8JjW77Gf2yG&token=glWa1YfBd2nq4B28C4Y0rotGHmMknKhlyjPGrdhchec" target="_blank" >打开模型</a>'
 
         # create obj in odoo super function
         res_id = super(ProjectTaskBim, self).create(values)
