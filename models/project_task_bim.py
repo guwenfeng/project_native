@@ -4,53 +4,62 @@ import base64
 import io
 import logging
 import requests
-
+from odoo.exceptions import Warning
 _logger = logging.getLogger(__name__)  # Need for message in console.
 
 
 def getAllDeserializers() :
-    url = "http://119.3.41.81:8081/bimserver/json"
-    payload = "{\"request\":{\"interface\":\"org.bimserver.PluginInterface\",\"method\":\"getAllDeserializers\",\"parameters\":{\"onlyEnabled\":\"true\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
-    headers = {
-        'content-type': "application/json; charset=UTF-8"
-        }
-    response = requests.request("POST", url, data=payload, headers=headers)
-    relist = response.json()['response']['result']
-    return relist
+    try:
+        url = "http://119.3.41.81:8081/bimserver/json"
+        payload = "{\"request\":{\"interface\":\"org.bimserver.PluginInterface\",\"method\":\"getAllDeserializers\",\"parameters\":{\"onlyEnabled\":\"true\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
+        headers = {
+            'content-type': "application/json; charset=UTF-8"
+            }
+        response = requests.request("POST", url, data=payload, headers=headers)
+        relist = response.json()['response']['result']
+        return relist
+    except:
+        raise Warning('模型转换异常')
+        return None
 
 def addProject(projectName:str,deslist:list,uuid:str) :
-    ifcDownloadUrl = 'http://172.16.0.129:8087/SmartCity/model/ifc/download/'
-    for index in range(len(deslist)):
-        obj =  deslist[index]
-        if obj['name'] == 'Ifc2x3tc1 (Streaming)' :
-            deserializerOid = obj['oid']
-            url = "http://119.3.41.81:8081/bimserver/json"
-            payload = "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"addProject\",\"parameters\":{\"projectName\":\""+projectName+"\",\"schema\":\"ifc2x3tc1\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
-            headers = {
-                'content-type': "application/json; charset=UTF-8"
-            }
-            response = requests.request("POST", url, data=payload.encode(encoding='UTF-8',errors='strict'), headers=headers)
-            js = response.json()
-            _logger.info(js)
-            checkinFromUrl(str(js["response"]["result"]['oid']),str(deserializerOid),uuid+'.ifc',ifcDownloadUrl + uuid)
+    try:
+        ifcDownloadUrl = 'http://172.16.0.129:8087/SmartCity/model/ifc/download/'
+        for index in range(len(deslist)):
+            obj =  deslist[index]
+            if obj['name'] == 'Ifc2x3tc1 (Streaming)' :
+                deserializerOid = obj['oid']
+                url = "http://119.3.41.81:8081/bimserver/json"
+                payload = "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"addProject\",\"parameters\":{\"projectName\":\""+projectName+"\",\"schema\":\"ifc2x3tc1\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
+                headers = {
+                    'content-type': "application/json; charset=UTF-8"
+                }
+                response = requests.request("POST", url, data=payload.encode(encoding='UTF-8',errors='strict'), headers=headers)
+                js = response.json()
+                _logger.info(js)
+                checkinFromUrl(str(js["response"]["result"]['oid']),str(deserializerOid),uuid+'.ifc',ifcDownloadUrl + uuid)
+    except:
+        raise Warning('模型转换异常')
 
 def checkinFromUrl(poid :str, deserializerOid :str, fileName :str, fileUrl :str) :
-    url = "http://119.3.41.81:8081/bimserver/json"
-    payload = "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"checkinFromUrl\",\"parameters\":{\"poid\":"+ poid+",\"comment\":\"\",\"deserializerOid\":"+ deserializerOid +",\"fileName\":\""+fileName+"\",\"url\":\""+ fileUrl +"\",\"merge\":false,\"sync\":true}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
-    headers = {
-        'content-type': "application/json; charset=UTF-8"
-    }
-    response = requests.request("POST", url, data=payload, headers=headers)
-    js = response.json()
-    _logger.info(js)
-
+    try:
+        url = "http://119.3.41.81:8081/bimserver/json"
+        payload = "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"checkinFromUrl\",\"parameters\":{\"poid\":"+ poid+",\"comment\":\"\",\"deserializerOid\":"+ deserializerOid +",\"fileName\":\""+fileName+"\",\"url\":\""+ fileUrl +"\",\"merge\":false,\"sync\":true}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}"
+        headers = {
+            'content-type': "application/json; charset=UTF-8"
+        }
+        response = requests.request("POST", url, data=payload, headers=headers)
+        js = response.json()
+        _logger.info(js)
+    except:
+        raise  Warning('模型转换异常')
 
 class ProjectTaskBim(models.Model):
     """docstring for ProjectTaskBim."""
     _name = 'project.task.bim'
     name = fields.Char("模型名称", required=True)
     version = fields.Char("模型版本", required=True,default='1.0')
-    file = fields.Binary("模型文件", required=True)
+    file = fields.Binary("模型文件")
     file_name = fields.Char("文件名")
     file_url = fields.Html("模型显示地址")
     description = fields.Char("描述")
@@ -128,25 +137,26 @@ class ProjectTaskBim(models.Model):
             conn.close()
         except :
             _logger.info('HTTP connection ERROR')
+            raise Warning('网络连接异常')
             return None
 
         if responseBody['success'] :
             _logger.info('Upload File success')
             values['file_url'] = '<a href ="http://119.3.40.108:3000/#/model-detail-show?uuid=' + responseBody['content'] + '&uid=CxjNWQ8JjW77Gf2yG&token=glWa1YfBd2nq4B28C4Y0rotGHmMknKhlyjPGrdhchec" target="_blank" >打开模型</a>'
-
-            uuid = responseBody['content']
-            filePName = values['name'] + '-' + uuid
-            descriptionList = getAllDeserializers()
-            addProject(filePName,descriptionList,uuid)
+            # convert Bim model
+            try:
+                uuid = responseBody['content']
+                filePName = values['name'] + '-' + uuid
+                descriptionList = getAllDeserializers()
+                addProject(filePName,descriptionList,uuid)
+            except Warning as w:
+                raise w
         else :
+            raise Warning('连接Bim服务错误')
             return None
-            # {
-            #     'warning':{
-            #         'title': '上传模型到BimVE失败',
-            #         'message': responseBody['message']
-            #     }
-            # }
         # create obj in odoo super function
+        values.pop('file')
+        values.pop('file_name')
         res_id = super(ProjectTaskBim, self).create(values)
         return res_id
 

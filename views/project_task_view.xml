@@ -136,8 +136,6 @@
                           <tree string="Bim" editable="bottom" >
                               <field name="name"/>
                               <field name="version"/>
-                              <field name="file_name" invisible="1"/>
-                              <field name="file" filename="file_name"/>
                               <field name="file_url"/>
                               <field name="description"/>
                               <field name="user_id"/>
