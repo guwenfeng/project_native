@@ -131,9 +131,9 @@
                             </tree>
                         </field>
                     </page>
-                    <page name='bim_task' string="Bim">
+                    <page name='bim_task' string="BIM">
                       <field name="bim_ids" nolabel="1" widget="Many2many_list">
-                          <tree string="Bim" editable="bottom" >
+                          <tree string="BIM" editable="bottom" >
                               <field name="name"/>
                               <field name="version"/>
                               <field name="file_url"/>
