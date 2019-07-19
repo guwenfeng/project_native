@@ -19,7 +19,7 @@
 				<tree>
 					<field name="name" />
 					<field name="version" />
-					<field name="file_url"/>
+                    <field name="bim" widget="bim_file"/>
 					<field name="description"/>
 					<field name="user_id"/>
 				</tree>
@@ -33,18 +33,17 @@
           <form string="BIM模型">
             <group name="group_top">
               <group name="group_left">
-                  <field name="name" />
+                  <field name="name"/>
                   <field name="version" />
-                  <field name="file_name" invisible="1" />
-                  <field name="file" filename="file_name" required="True"/>
               </group>
               <group name="group_right">
-                  <field name="file_url" widget="url" readonly="True"/>
                   <field name="description"/>
                   <field name="user_id"/>
               </group>
             </group>
             <group>
+              <field name="bim" widget="bim_file"/>
+
                 <field name="task_ids" />
             </group>
           </form>

@@ -38,7 +38,9 @@
         "hr_timesheet",
         "web_gantt_native",
         "web_widget_time_delta",
-        "web_widget_colorpicker"
+        "web_widget_colorpicker",
+        "base",
+        "web"
     ],
     "external_dependencies": {"python": [], "bin": []},
     "data": [
@@ -50,6 +52,7 @@
         'views/project_project_view.xml',
         'views/project_task_bim.xml',
         'security/ir.model.access.csv',
+        'views/templates.xml',
     ],
     "qweb": [],
     "demo": [],

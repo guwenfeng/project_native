@@ -136,7 +136,7 @@
                           <tree string="BIM" editable="bottom" >
                               <field name="name"/>
                               <field name="version"/>
-                              <field name="file_url"/>
+                              <field name="bim" widget="bim_file"/>
                               <field name="description"/>
                               <field name="user_id"/>
                           </tree>
