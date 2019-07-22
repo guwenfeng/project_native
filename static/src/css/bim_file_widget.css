@@ -32,36 +32,36 @@
     text-decoration: none
 }
 
-/*progress#bim_file_progress.bim_file_progress {*/
-/*    width: 160px;*/
-/*    margin: 1px 4px;*/
-/*    height: 27px;*/
-/*    border: 1px solid #cbcbcb;*/
-/*    border-radius:10px;*/
-/*    background-color:#e6e6e6;*/
-/*    color: #d1d0fd; !*IE10*!*/
-/*}*/
+progress#bim_file_progress.bim_file_progress {
+    width: 160px;
+    margin: 6px 4px;
+    height: 17px;
+    border: 1px solid #cbcbcb;
+    border-radius:10px;
+    background-color:#e6e6e6;
+    color: #d1d0fd; /*IE10*/
+}
 
-/*progress#bim_file_progress.bim_file_progress::-moz-progress-bar {*/
-/*    background: -webkit-linear-gradient(left, #eeecfd, #d1d0fd);*/
-/*    border-radius:10px;*/
-/*}*/
-/*progress#bim_file_progress.bim_file_progress::-webkit-progress-bar {*/
-/*    border-radius:10px;*/
-/*    background: #e6e6e6;*/
-/*}*/
-/*progress#bim_file_progress.bim_file_progress::-webkit-progress-value  {*/
-/*    background: -webkit-linear-gradient(left, #eeecfd, #d1d0fd);*/
-/*    border-radius:10px;*/
-/*}*/
+progress#bim_file_progress.bim_file_progress::-moz-progress-bar {
+    background: -webkit-linear-gradient(left, #eeecfd, #d1d0fd);
+    border-radius:10px;
+}
+progress#bim_file_progress.bim_file_progress::-webkit-progress-bar {
+    border-radius:10px;
+    background: #e6e6e6;
+}
+progress#bim_file_progress.bim_file_progress::-webkit-progress-value  {
+    background: -webkit-linear-gradient(left, #eeecfd, #d1d0fd);
+    border-radius:10px;
+}
 
-/*div.bim_field_div{*/
-/*    height: 34px;*/
-/*}*/
+div.bim_field_div{
+    height: 34px;
+}
 
-/*span.bim_file_upLoad_info{*/
-/*    position: absolute;*/
-/*    padding: 3px 10px;*/
-/*    margin: 1px 4px;*/
-/*    height: 27px;*/
-/*}*/
+span.bim_file_upLoad_info{
+    position: absolute;
+    padding: 3px 10px;
+    margin: 1px 4px;
+    height: 27px;
+}

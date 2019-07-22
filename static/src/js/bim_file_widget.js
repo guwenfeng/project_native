@@ -26,6 +26,7 @@ function bimFileLoad(field, bimfile){
     form.append("dir","");
     $("button[accesskey='s']").attr('disabled',true);
     $("button[accesskey='j']").attr('disabled',true);
+    $("button").attr('disabled',true);
     $("#fileTransformInfo").html("正在上传模型，请勿关闭窗口！ 进度：\t0%").show();
 
     $.ajax({
@@ -57,6 +58,17 @@ function bimFileLoad(field, bimfile){
             $("#fileTransformInfo").html("模型上传成功，正在转换模型，请勿关闭窗口！（这可能需要几分钟）").show();
             transformIfcFile(name, response.content)
         },
+        "error":function requesFail(xhr){
+            var status = xhr.status;
+            if (status) {
+                $("#fileerrorTip").html("发生网络错误，错误码为：" + xhr.status).show();
+            } else {
+                $("#fileerrorTip").html("未知网络错误, 请确保设备处在联网状态").show();
+            }
+            $("button[accesskey='s']").attr('disabled',false);
+            $("button[accesskey='j']").attr('disabled',false);
+            $("button").attr('disabled',false);
+        },
     });
 }
 
@@ -77,7 +89,18 @@ function transformIfcFile(name, uuid){
             var filePName = name + '-' + uuid;
             console.log("filePName",filePName);
             addProject(filePName, dList, uuid);
-        }
+        },
+        "error":function requesFail(xhr){
+            var status = xhr.status;
+            if (status) {
+                $("#fileerrorTip").html("发生网络错误，错误码为：" + xhr.status).show();
+            } else {
+                $("#fileerrorTip").html("未知网络错误, 请确保设备处在联网状态").show();
+            }
+            $("button[accesskey='s']").attr('disabled',false);
+            $("button[accesskey='j']").attr('disabled',false);
+            $("button").attr('disabled',false);
+        },
     });
 }
 function addProject(filePName, dList, uuid) {
@@ -98,7 +121,18 @@ function addProject(filePName, dList, uuid) {
                     console.log("addProject", response);
                     const oid = response.response.result.oid;
                     checkinFromUrl(oid, deserializerOid, uuid+'.ifc',  'http://172.16.0.129:8087/SmartCity/model/ifc/download/' + uuid);
-                }
+                },
+                "error":function requesFail(xhr){
+                    var status = xhr.status;
+                    if (status) {
+                        $("#fileerrorTip").html("发生网络错误，错误码为：" + xhr.status).show();
+                    } else {
+                        $("#fileerrorTip").html("未知网络错误, 请确保设备处在联网状态").show();
+                    }
+                    $("button[accesskey='s']").attr('disabled',false);
+                    $("button[accesskey='j']").attr('disabled',false);
+                    $("button").attr('disabled',false);
+                },
             });
         }
     }
@@ -120,7 +154,20 @@ function checkinFromUrl(poid, deserializerOid, fileName, fileUrl) {
             $("#fileTransformInfo").html("模型转换成功，请保存！").show();
             $("button[accesskey='s']").attr('disabled',false);
             $("button[accesskey='j']").attr('disabled',false);
-        }
+            $("button").attr('disabled',false);
+
+        },
+        "error":function requesFail(xhr){
+            var status = xhr.status;
+            if (status) {
+                $("#fileerrorTip").html("发生网络错误，错误码为：" + xhr.status).show();
+            } else {
+                $("#fileerrorTip").html("未知网络错误, 请确保设备处在联网状态").show();
+            }
+            $("button[accesskey='s']").attr('disabled',false);
+            $("button[accesskey='j']").attr('disabled',false);
+            $("button").attr('disabled',false);
+        },
     });
 }
 
@@ -151,7 +198,7 @@ odoo.define('bim_file_widget', function(require){
             if (this.value === false){
                 this.$el.empty();
                 this.$el.append("<div class='bim_field_div'>" +
-                                        "<progress id='bim_file_progress' class='bim_file_progress'>100%</progress>" +
+                                        "<progress id='bim_file_progress' class='bim_file_progress'></progress>" +
                                         "<a href='javascript:;' class='bim-file-a-upload'>" +
                                             "<span id='bim_file_tmp_name'>选择文件</span>" +
                                             "<input type='file' name='file' class='bim_model_file_input' id='bim_model_file_input'/>" +
