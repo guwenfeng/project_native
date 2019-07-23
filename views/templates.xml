@@ -2,8 +2,6 @@
 <odoo>
   <template id="assets_end" inherit_id="web.assets_backend">
     <xpath expr="." position="inside">
-      <script src="/project_native/static/src/js/bim_widget.js" type="text/javascript" />
-      <link href="/project_native/static/src/scss/bim_widget.scss" rel="stylesheet" type="text/scss" />
       <link href="/project_native/static/src/css/bim_file_widget.css" rel="stylesheet" type="text/css"/>
       <script src="/project_native/static/src/js/bim_file_widget.js" type="text/javascript" />
     </xpath>
