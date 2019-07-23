@@ -1,3 +1,9 @@
+const BIMVE_UPLOAD_URL = "http://119.3.40.108:8087/SmartCity/model/ifc/upload";
+const BIMVE_UPLOAD_TOKEN = "glWa1YfBd2nq4B28C4Y0rotGHmMknKhlyjPGrdhchec";
+const BIMVE_UPLOAD_UID = "CxjNWQ8JjW77Gf2yG";
+const BIMVE_TRANSFER_URL = "http://119.3.41.81:8081/bimserver/json";
+const BIMVE_TRANSFER_TOKEN = "b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a";
+
 function bimFileLoad(field, bimfile){
     var name = $("input[name='name']").val();
     var version = $("input[name='version']").val();
@@ -32,12 +38,12 @@ function bimFileLoad(field, bimfile){
     $.ajax({
         "async": true,
         "crossDomain": true,
-        "url": "http://119.3.40.108:8087/SmartCity/model/ifc/upload",
+        "url": BIMVE_UPLOAD_URL,
         "method": "POST",
         "headers": {
-            "rc_uid": "CxjNWQ8JjW77Gf2yG",
+            "rc_uid": BIMVE_UPLOAD_UID,
             "accept": "application/json, text/javascript",
-            "rc_token": "glWa1YfBd2nq4B28C4Y0rotGHmMknKhlyjPGrdhchec"
+            "rc_token": BIMVE_UPLOAD_TOKEN
         },
         "processData": false,
         "contentType": false,
@@ -52,7 +58,7 @@ function bimFileLoad(field, bimfile){
         },
         "success": function(result){
             const response = JSON.parse(result);
-            console.log("response",response);
+            // console.log("response",response);
             // console.log("content",response.content);
             field._setValue(response.content);
             $("#fileTransformInfo").html("模型上传成功，正在转换模型，请勿关闭窗口！（这可能需要几分钟）").show();
@@ -76,18 +82,18 @@ function transformIfcFile(name, uuid){
     $.ajax({
         "async": true,
         "crossDomain": true,
-        "url": "http://119.3.41.81:8081/bimserver/json",
+        "url": BIMVE_TRANSFER_URL,
         "method": "POST",
         "headers": {
             "content-type": "application/json; charset=UTF-8"
         },
-        "data": "{\"request\":{\"interface\":\"org.bimserver.PluginInterface\",\"method\":\"getAllDeserializers\",\"parameters\":{\"onlyEnabled\":\"true\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}",
+        "data": "{\"request\":{\"interface\":\"org.bimserver.PluginInterface\",\"method\":\"getAllDeserializers\",\"parameters\":{\"onlyEnabled\":\"true\"}},\"token\":\""+BIMVE_TRANSFER_TOKEN+"\"}",
         "success": function (response) {
-            console.log("transformIfcFile",response);
+            // console.log("transformIfcFile",response);
             const dList = response.response.result;
-            console.log("dlist",dList);
+            // console.log("dlist",dList);
             var filePName = name + '-' + uuid;
-            console.log("filePName",filePName);
+            // console.log("filePName",filePName);
             addProject(filePName, dList, uuid);
         },
         "error":function requesFail(xhr){
@@ -111,14 +117,14 @@ function addProject(filePName, dList, uuid) {
             $.ajax({
                 "async": true,
                 "crossDomain": true,
-                "url": "http://119.3.41.81:8081/bimserver/json",
+                "url": BIMVE_TRANSFER_URL,
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json; charset=UTF-8"
                 },
-                "data": "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"addProject\",\"parameters\":{\"projectName\":\""+ filePName +"\",\"schema\":\"ifc2x3tc1\"}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}",
+                "data": "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"addProject\",\"parameters\":{\"projectName\":\""+ filePName +"\",\"schema\":\"ifc2x3tc1\"}},\"token\":\""+BIMVE_TRANSFER_TOKEN+"\"}",
                 "success": function (response) {
-                    console.log("addProject", response);
+                    // console.log("addProject", response);
                     const oid = response.response.result.oid;
                     checkinFromUrl(oid, deserializerOid, uuid+'.ifc',  'http://172.16.0.129:8087/SmartCity/model/ifc/download/' + uuid);
                 },
@@ -143,14 +149,14 @@ function checkinFromUrl(poid, deserializerOid, fileName, fileUrl) {
     $.ajax({
         "async": true,
         "crossDomain": true,
-        "url": "http://119.3.41.81:8081/bimserver/json",
+        "url": BIMVE_TRANSFER_URL,
         "method": "POST",
         "headers": {
             "content-type": "application/json; charset=UTF-8"
         },
-        "data": "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"checkinFromUrl\",\"parameters\":{\"poid\":"+ poid+",\"comment\":\"\",\"deserializerOid\":"+ deserializerOid +",\"fileName\":\""+fileName+"\",\"url\":\""+ fileUrl +"\",\"merge\":false,\"sync\":true}},\"token\":\"b6121d0067146650c2d193207b3931679bf6631df5f70e66c4b73b2ec107e388f5f328b3eab8a1144849c258858e692a\"}",
+        "data": "{\"request\":{\"interface\":\"org.bimserver.ServiceInterface\",\"method\":\"checkinFromUrl\",\"parameters\":{\"poid\":"+ poid+",\"comment\":\"\",\"deserializerOid\":"+ deserializerOid +",\"fileName\":\""+fileName+"\",\"url\":\""+ fileUrl +"\",\"merge\":false,\"sync\":true}},\"token\":\""+BIMVE_TRANSFER_TOKEN+"\"}",
         "success": function (response) {
-            console.log("checkinFromUrl",response);
+            // console.log("checkinFromUrl",response);
             $("#fileTransformInfo").html("模型转换成功，请保存！").show();
             $("button[accesskey='s']").attr('disabled',false);
             $("button[accesskey='j']").attr('disabled',false);
